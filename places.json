@@ -1,0 +1,88 @@
+{
+  "places": [
+    {
+      "city": "Přerov",
+      "name": "Helfštýn Castle",
+      "category": "Castle",
+      "description": "One of the largest castle complexes in Central Europe. Blacksmithing center."
+    },
+    {
+      "city": "Přerov",
+      "name": "Přerov Castle & Comenius Museum",
+      "category": "Museum",
+      "description": "Historical museum with archaeology and J. A. Comenius exhibition."
+    },
+    {
+      "city": "Přerov",
+      "name": "Zbrašov Aragonite Caves",
+      "category": "Nature",
+      "description": "Unique hydrothermal caves in Teplice nad Bečvou."
+    },
+    {
+      "city": "Přerov",
+      "name": "Hranická Propast (Abyss)",
+      "category": "Nature",
+      "description": "Deepest flooded freshwater cave in the world (473+ m)."
+    },
+    {
+      "city": "Přerov",
+      "name": "Lipník nad Bečvou",
+      "category": "Historic Town",
+      "description": "Urban monument reservation with Renaissance square."
+    },
+    {
+      "city": "Přerov",
+      "name": "Tovačov Chateau",
+      "category": "Chateau",
+      "description": "Renaissance chateau with nearly 100m tower."
+    },
+    {
+      "city": "Olomouc",
+      "name": "Holy Trinity Column",
+      "category": "UNESCO",
+      "description": "35m tall Baroque sculpture – largest in Central Europe."
+    },
+    {
+      "city": "Olomouc",
+      "name": "Astronomical Clock",
+      "category": "Landmark",
+      "description": "Unique socialist-realism clock on town hall."
+    },
+    {
+      "city": "Olomouc",
+      "name": "St. Wenceslas Cathedral",
+      "category": "Church",
+      "description": "Gothic cathedral with tallest spire in Moravia (100m)."
+    },
+    {
+      "city": "Olomouc",
+      "name": "6 Baroque Fountains",
+      "category": "Landmark",
+      "description": "Neptune, Hercules, Jupiter, Triton, Caesar, Mercury."
+    },
+    {
+      "city": "Olomouc",
+      "name": "Svatý Kopeček + Zoo",
+      "category": "Nature",
+      "description": "Pilgrimage basilica and popular zoo."
+    },
+    {
+      "city": "Olomouc",
+      "name": "Olomouc Tvarůžky",
+      "category": "Gastronomy",
+      "description": "Taste the famous smelly cheese!"
+    },
+    {
+      "city": "Olomouc",
+      "name": "Bouzov Castle",
+      "category": "Castle",
+      "description": "Fairytale castle ~30 km from Olomouc."
+    },
+    {
+      "city": "Olomouc",
+      "name": "Kroměříž Gardens",
+      "category": "UNESCO",
+      "description": "UNESCO chateau and gardens ~25 km away."
+    }
+  ]
+}

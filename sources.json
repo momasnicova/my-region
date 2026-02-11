@@ -1,0 +1,432 @@
+{
+  "lastUpdated": "2026-01-16",
+  "sources": [
+    {
+      "city": "Radotín",
+      "distance": 0,
+      "url": "https://www.obecradotin.cz/aktuality",
+      "type": "web",
+      "name": "Obec Radotín"
+    },
+    {
+      "city": "Soběchleby",
+      "distance": 2,
+      "url": "https://www.sobechleby.cz/aktuality",
+      "type": "web",
+      "name": "Obec Soběchleby"
+    },
+    {
+      "city": "Týn nad Bečvou",
+      "distance": 5,
+      "url": "https://www.tynnadbecvou.cz/aktuality",
+      "type": "web",
+      "name": "Obec Týn nad Bečvou"
+    },
+    {
+      "city": "Teplice nad Bečvou",
+      "distance": 6,
+      "url": "https://www.teplicenb.cz/",
+      "type": "web",
+      "name": "Obec Teplice nad Bečvou"
+    },
+    {
+      "city": "Lipník nad Bečvou",
+      "distance": 7,
+      "url": "https://www.mesto-lipnik.cz/",
+      "type": "web",
+      "name": "Město Lipník nad Bečvou"
+    },
+    {
+      "city": "Lipník nad Bečvou",
+      "distance": 7,
+      "url": "https://mesto-lipnik.munipolis.cz/",
+      "type": "munipolis",
+      "name": "Lipník Munipolis"
+    },
+    {
+      "city": "Ústí",
+      "distance": 8,
+      "url": "https://www.obec-usti.cz/",
+      "type": "web",
+      "name": "Obec Ústí"
+    },
+    {
+      "city": "Přerov",
+      "distance": 14,
+      "url": "https://www.prerov.eu/redakce/index.php?lanG=cs&portal=2&subakce=news",
+      "type": "web",
+      "name": "Město Přerov - aktuality"
+    },
+    {
+      "city": "Přerov",
+      "distance": 14,
+      "url": "https://www.facebook.com/televizeprerov/",
+      "type": "facebook",
+      "name": "Televize Přerov"
+    },
+    {
+      "city": "Přerov",
+      "distance": 14,
+      "url": "https://www.instagram.com/televizeprerov/",
+      "type": "instagram",
+      "name": "Televize Přerov IG"
+    },
+    {
+      "city": "Olomouc",
+      "distance": 30,
+      "url": "https://www.olomouc.eu/portal/aktuality",
+      "type": "web",
+      "name": "Olomouc - aktuality"
+    },
+    {
+      "city": "Olomouc",
+      "distance": 30,
+      "url": "https://www.olomouc.eu/portal/kalendar-akci",
+      "type": "web",
+      "name": "Olomouc - kalendář akcí"
+    },
+    {
+      "city": "Olomouc",
+      "distance": 30,
+      "url": "https://www.facebook.com/statutarni.mesto.olomouc",
+      "type": "facebook",
+      "name": "Město Olomouc FB"
+    },
+    {
+      "city": "Olomouc",
+      "distance": 30,
+      "url": "https://www.linkedin.com/company/statutarni-mesto-olomouc/",
+      "type": "linkedin",
+      "name": "Město Olomouc LinkedIn"
+    },
+    {
+      "city": "Olomouc",
+      "distance": 30,
+      "url": "https://www.instagram.com/Olomouc_Tourism/",
+      "type": "instagram",
+      "name": "Olomouc Tourism IG"
+    },
+    {
+      "city": "Kroměříž",
+      "distance": 30,
+      "url": "https://www.mesto-kromeriz.cz/",
+      "type": "web",
+      "name": "Město Kroměříž"
+    },
+    {
+      "city": "Kroměříž",
+      "distance": 30,
+      "url": "https://kromeriz.eu/",
+      "type": "web",
+      "name": "Kroměříž Tourism"
+    },
+    {
+      "city": "Kroměříž",
+      "distance": 30,
+      "url": "https://www.mojekromeriz.cz/",
+      "type": "web",
+      "name": "Moje Kroměříž"
+    },
+    {
+      "city": "Kroměříž",
+      "distance": 30,
+      "url": "https://www.facebook.com/MestoKromerizOficialne/",
+      "type": "facebook",
+      "name": "Město Kroměříž FB"
+    },
+    {
+      "city": "Kroměříž",
+      "distance": 30,
+      "url": "https://www.kudyznudy.cz/kam-pojedete/zlinsky-kraj/kromerizsko/kromeriz",
+      "type": "web",
+      "name": "Kudy z nudy"
+    },
+    {
+      "city": "Kroměříž",
+      "distance": 30,
+      "url": "https://www.regiontourist.cz/co-podniknout/lokalita/kromeriz/",
+      "type": "web",
+      "name": "Region Tourist"
+    },
+    {
+      "city": "Kroměříž",
+      "distance": 30,
+      "url": "https://www.kudyznudy.cz/vylety/za-pamatkami-unesco/kromeriz-mesto-historickych-pamatek-umeni-a-kultur",
+      "type": "web",
+      "name": "UNESCO Guide"
+    },
+    {
+      "city": "Prostějov",
+      "distance": 35,
+      "url": "https://www.prostejov.eu/",
+      "type": "web",
+      "name": "Město Prostějov"
+    },
+    {
+      "city": "Prostějov",
+      "distance": 35,
+      "url": "https://www.turistaprostejov.cz/",
+      "type": "web",
+      "name": "Turista Prostějov"
+    },
+    {
+      "city": "Prostějov",
+      "distance": 35,
+      "url": "https://prostejov.pincity.cz/",
+      "type": "web",
+      "name": "PinCity Prostějov"
+    },
+    {
+      "city": "Prostějov",
+      "distance": 35,
+      "url": "https://www.facebook.com/statutarni.mesto.prostejov/",
+      "type": "facebook",
+      "name": "Město Prostějov FB"
+    },
+    {
+      "city": "Prostějov",
+      "distance": 35,
+      "url": "https://www.instagram.com/prostejov_mesto/",
+      "type": "instagram",
+      "name": "Prostějov IG"
+    },
+    {
+      "city": "Prostějov",
+      "distance": 35,
+      "url": "https://www.kudyznudy.cz/kam-pojedete/olomoucky-kraj/stredni-morava/prostejov",
+      "type": "web",
+      "name": "Kudy z nudy"
+    },
+    {
+      "city": "Zlín",
+      "distance": 45,
+      "url": "https://www.zlin.eu/",
+      "type": "web",
+      "name": "Město Zlín"
+    },
+    {
+      "city": "Zlín",
+      "distance": 45,
+      "url": "https://visitzlin.eu/",
+      "type": "web",
+      "name": "Visit Zlín"
+    },
+    {
+      "city": "Zlín",
+      "distance": 45,
+      "url": "https://visitzlin.eu/kalendar-akci",
+      "type": "web",
+      "name": "Visit Zlín - kalendář"
+    },
+    {
+      "city": "Zlín",
+      "distance": 45,
+      "url": "https://visitzlin.eu/poznej-zlin",
+      "type": "web",
+      "name": "Poznej Zlín"
+    },
+    {
+      "city": "Zlín",
+      "distance": 45,
+      "url": "https://www.zlin.eu/jarmarky",
+      "type": "web",
+      "name": "Zlín jarmarky"
+    },
+    {
+      "city": "Zlín",
+      "distance": 45,
+      "url": "https://zlin.cz/akce/",
+      "type": "web",
+      "name": "Zlín akce"
+    },
+    {
+      "city": "Zlín",
+      "distance": 45,
+      "url": "https://www.zoozlin.eu/",
+      "type": "web",
+      "name": "Zoo Zlín"
+    },
+    {
+      "city": "Zlín",
+      "distance": 45,
+      "url": "https://www.kulturazlin.cz/",
+      "type": "web",
+      "name": "Kultura Zlín"
+    },
+    {
+      "city": "Zlín",
+      "distance": 45,
+      "url": "https://zlinskykraj.cz/aktuality",
+      "type": "web",
+      "name": "Zlínský kraj"
+    },
+    {
+      "city": "Zlín",
+      "distance": 45,
+      "url": "https://www.facebook.com/mestozlin.eu/",
+      "type": "facebook",
+      "name": "Město Zlín FB"
+    },
+    {
+      "city": "Zlín",
+      "distance": 45,
+      "url": "https://www.kudyznudy.cz/kam-pojedete/zlinsky-kraj/zlinsko-luhacovicko/zlin",
+      "type": "web",
+      "name": "Kudy z nudy"
+    },
+    {
+      "city": "Šumperk",
+      "distance": 55,
+      "url": "https://www.sumperk.cz/",
+      "type": "web",
+      "name": "Město Šumperk"
+    },
+    {
+      "city": "Šumperk",
+      "distance": 55,
+      "url": "https://www.infosumperk.cz/",
+      "type": "web",
+      "name": "Info Šumperk"
+    },
+    {
+      "city": "Šumperk",
+      "distance": 55,
+      "url": "https://www.sumperk.info/",
+      "type": "web",
+      "name": "Šumperk Info"
+    },
+    {
+      "city": "Šumperk",
+      "distance": 55,
+      "url": "https://www.facebook.com/sumperk.cz/",
+      "type": "facebook",
+      "name": "Šumperk FB"
+    },
+    {
+      "city": "Šumperk",
+      "distance": 55,
+      "url": "https://www.instagram.com/sumperk.cz/",
+      "type": "instagram",
+      "name": "Šumperk IG"
+    },
+    {
+      "city": "Šumperk",
+      "distance": 55,
+      "url": "https://www.kudyznudy.cz/kam-pojedete/oblasti/jeseniky/sumperk",
+      "type": "web",
+      "name": "Kudy z nudy Jeseníky"
+    },
+    {
+      "city": "Šumperk",
+      "distance": 55,
+      "url": "https://www.regiontourist.cz/co-podniknout/lokalita/sumperk/",
+      "type": "web",
+      "name": "Region Tourist"
+    },
+    {
+      "city": "Ostrava",
+      "distance": 70,
+      "url": "https://ostrava.cz/cs",
+      "type": "web",
+      "name": "Město Ostrava"
+    },
+    {
+      "city": "Ostrava",
+      "distance": 70,
+      "url": "https://www.visitostrava.eu/",
+      "type": "web",
+      "name": "Visit Ostrava"
+    },
+    {
+      "city": "Ostrava",
+      "distance": 70,
+      "url": "https://www.ostravainfo.cz/",
+      "type": "web",
+      "name": "Ostrava Info"
+    },
+    {
+      "city": "Ostrava",
+      "distance": 70,
+      "url": "https://www.visitostrava.eu/cz/objevuj-ostravu/top-10/",
+      "type": "web",
+      "name": "Top 10 Ostrava"
+    },
+    {
+      "city": "Ostrava",
+      "distance": 70,
+      "url": "https://www.dolnivitkovice.cz/kalendar-akci/",
+      "type": "web",
+      "name": "Dolní Vítkovice"
+    },
+    {
+      "city": "Ostrava",
+      "distance": 70,
+      "url": "https://www.cerna-louka.cz/",
+      "type": "web",
+      "name": "Černá louka"
+    },
+    {
+      "city": "Ostrava",
+      "distance": 70,
+      "url": "https://www.facebook.com/mesto.ostrava/",
+      "type": "facebook",
+      "name": "Město Ostrava FB"
+    },
+    {
+      "city": "Ostrava",
+      "distance": 70,
+      "url": "https://www.kudyznudy.cz/kam-pojedete/moravskoslezsky-kraj/ostravsko/ostrava",
+      "type": "web",
+      "name": "Kudy z nudy"
+    },
+    {
+      "city": "Opava",
+      "distance": 85,
+      "url": "https://www.opava-city.cz/cz/",
+      "type": "web",
+      "name": "Město Opava"
+    },
+    {
+      "city": "Opava",
+      "distance": 85,
+      "url": "https://www.opava-city.cz/tic/cz/",
+      "type": "web",
+      "name": "TIC Opava"
+    },
+    {
+      "city": "Opava",
+      "distance": 85,
+      "url": "https://oko-opava.cz/",
+      "type": "web",
+      "name": "OKO Opava"
+    },
+    {
+      "city": "Opava",
+      "distance": 85,
+      "url": "https://www.facebook.com/mestoopava/",
+      "type": "facebook",
+      "name": "Město Opava FB"
+    },
+    {
+      "city": "Opava",
+      "distance": 85,
+      "url": "https://www.instagram.com/mesto.opava/",
+      "type": "instagram",
+      "name": "Opava IG"
+    },
+    {
+      "city": "Opava",
+      "distance": 85,
+      "url": "https://www.kudyznudy.cz/kam-pojedete/moravskoslezsky-kraj/opavske-slezsko/opava",
+      "type": "web",
+      "name": "Kudy z nudy"
+    },
+    {
+      "city": "Opava",
+      "distance": 85,
+      "url": "https://www.regiontourist.cz/co-podniknout/lokalita/opava/",
+      "type": "web",
+      "name": "Region Tourist"
+    }
+  ]
+}

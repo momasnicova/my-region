@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Region | Events & Places</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #faf9f7;
+            --bg-card: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #5c5c5c;
+            --text-muted: #8a8a8a;
+            --accent-green: #2d8a4e;
+            --accent-blue: #3a6b8c;
+            --accent-yellow: #b8860b;
+            --border-light: #e8e6e3;
+            --shadow-soft: 0 2px 8px rgba(0,0,0,0.04), 0 4px 24px rgba(0,0,0,0.06);
+            --shadow-hover: 0 4px 12px rgba(0,0,0,0.08), 0 8px 32px rgba(0,0,0,0.1);
+            /* Location colors */
+            --loc-radotin: #7c5295;
+            --loc-villages: #059669;
+            --loc-lipnik: #0891b2;
+            --loc-prerov: #c45d3a;
+            --loc-olomouc: #2563eb;
+            --loc-kromeriz: #9333ea;
+            --loc-prostejov: #dc2626;
+            --loc-zlin: #ea580c;
+            --loc-sumperk: #16a34a;
+            --loc-ostrava: #475569;
+            --loc-opava: #64748b;
+        }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .container { max-width: 960px; margin: 0 auto; padding: 1.5rem; }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 2rem 0 1.5rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .header-icon {
+            width: 48px; height: 48px;
+            background: linear-gradient(135deg, var(--loc-radotin), var(--loc-olomouc));
+            border-radius: 12px;
+            margin: 0 auto 1rem;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 1.5rem;
+        }
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle { color: var(--text-secondary); font-size: 0.9rem; }
+        .last-updated {
+            display: inline-block;
+            margin-top: 0.75rem;
+            padding: 0.3rem 0.6rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Main Tabs */
+        .main-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 1.25rem 0;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .main-tab {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .main-tab:hover { background: rgba(0,0,0,0.03); }
+        .main-tab.active { background: var(--text-primary); color: white; }
+        .main-tab svg { width: 16px; height: 16px; }
+
+        /* Tab Content */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Refresh button */
+        .refresh-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .refresh-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            background: var(--accent-green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .refresh-btn:hover { background: #247a42; }
+        .refresh-btn svg { width: 14px; height: 14px; }
+        .refresh-btn.loading svg { animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .last-refresh { font-size: 0.75rem; color: var(--text-muted); }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 0.75rem 0 1rem;
+            flex-wrap: wrap;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+        .legend-dot.upcoming { background: var(--accent-green); }
+        .legend-dot.past { background: var(--accent-blue); }
+        .legend-dot.notification { background: var(--accent-yellow); }
+
+        /* Filters */
+        .filter-section { margin-bottom: 1rem; }
+        .filter-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.4rem;
+            display: block;
+        }
+        .filters-row {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 0.4rem 0.75rem;
+            border: 1px solid var(--border-light);
+            background: var(--bg-card);
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .filter-btn:hover { border-color: var(--text-muted); }
+        .filter-btn.active { background: var(--text-primary); color: white; border-color: var(--text-primary); }
+        .filter-btn .distance { font-size: 0.7rem; color: var(--text-muted); }
+        .filter-btn.active .distance { color: rgba(255,255,255,0.7); }
+        .filter-btn .loc-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+        /* Type tags */
+        .type-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.2rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.65rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+        .type-tag.upcoming { background: rgba(45, 138, 78, 0.12); color: var(--accent-green); }
+        .type-tag.past { background: rgba(58, 107, 140, 0.12); color: var(--accent-blue); }
+        .type-tag.notification { background: rgba(184, 134, 11, 0.12); color: var(--accent-yellow); }
+
+        /* Event cards */
+        .event-card {
+            display: block;
+            text-decoration: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 0.6rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            color: inherit;
+        }
+        .event-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 3px;
+            border-radius: 3px 0 0 3px;
+        }
+        .event-card.upcoming::before { background: var(--accent-green); }
+        .event-card.past::before { background: var(--accent-blue); }
+        .event-card.notification::before { background: var(--accent-yellow); }
+        .event-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-1px);
+            border-color: transparent;
+        }
+        .event-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.4rem;
+            flex-wrap: wrap;
+        }
+        .event-date {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .event-date svg { width: 12px; height: 12px; opacity: 0.6; }
+        .event-location {
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            padding: 0.1rem 0.4rem;
+            background: rgba(0,0,0,0.03);
+            border-radius: 8px;
+        }
+        .event-location-dot { width: 5px; height: 5px; border-radius: 50%; }
+        .event-title {
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+            color: var(--text-primary);
+        }
+        .event-excerpt {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+        .event-source {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-top: 0.6rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(0,0,0,0.03);
+            border-radius: 6px;
+            font-size: 0.7rem;
+            color: var(--accent-blue);
+            transition: all 0.2s;
+        }
+        .event-source svg {
+            width: 10px;
+            height: 10px;
+        }
+        .event-card:hover .event-source {
+            background: rgba(58, 107, 140, 0.1);
+            color: var(--accent-blue);
+        }
+
+        /* Sources Tab */
+        .sources-section { margin-bottom: 1.5rem; }
+        .sources-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .sources-header .loc-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .sources-header h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .sources-header .distance {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-left: auto;
+        }
+        .sources-header .count {
+            font-size: 0.7rem;
+            background: rgba(0,0,0,0.05);
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            color: var(--text-muted);
+        }
+        .source-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            margin-bottom: 0.4rem;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+        .source-item:hover {
+            border-color: var(--text-muted);
+            background: white;
+        }
+        .source-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            background: rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+        }
+        .source-icon.web { background: #e0f2fe; color: #0369a1; }
+        .source-icon.fb { background: #dbeafe; color: #1d4ed8; }
+        .source-icon.ig { background: #fce7f3; color: #be185d; }
+        .source-icon.li { background: #e0e7ff; color: #4338ca; }
+
+        /* Places Tab */
+        .places-section { margin-bottom: 1.5rem; }
+        .places-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .places-header h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .places-progress {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        .progress-bar {
+            flex: 1;
+            height: 5px;
+            background: var(--border-light);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-green);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+        .place-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            padding: 0.75rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            margin-bottom: 0.4rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .place-item:hover { border-color: var(--text-muted); }
+        .place-item.visited {
+            background: rgba(45, 138, 78, 0.05);
+            border-color: rgba(45, 138, 78, 0.2);
+        }
+        .place-checkbox {
+            width: 20px; height: 20px;
+            border: 2px solid var(--border-light);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+            transition: all 0.2s ease;
+        }
+        .place-item.visited .place-checkbox {
+            background: var(--accent-green);
+            border-color: var(--accent-green);
+        }
+        .place-checkbox svg {
+            width: 12px; height: 12px;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .place-item.visited .place-checkbox svg { opacity: 1; }
+        .place-content { flex: 1; }
+        .place-name { font-weight: 500; font-size: 0.9rem; margin-bottom: 0.15rem; }
+        .place-item.visited .place-name { text-decoration: line-through; color: var(--text-muted); }
+        .place-description { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.3; }
+        .place-badge {
+            display: inline-block;
+            padding: 0.1rem 0.4rem;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--loc-olomouc);
+            font-size: 0.65rem;
+            font-weight: 500;
+            border-radius: 8px;
+            margin-left: 0.3rem;
+        }
+        .place-badge.castle { background: rgba(196, 93, 58, 0.1); color: var(--loc-prerov); }
+        .place-badge.church { background: rgba(124, 82, 149, 0.1); color: var(--loc-radotin); }
+        .place-badge.museum { background: rgba(184, 134, 11, 0.1); color: var(--accent-yellow); }
+        .place-badge.nature { background: rgba(45, 138, 78, 0.1); color: var(--accent-green); }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 1.5rem 0;
+            border-top: 1px solid var(--border-light);
+            margin-top: 1.5rem;
+        }
+        .footer-text { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* Sources info bar */
+        .sources-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+        }
+        .sources-info #sources-count {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        .sources-hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .sources-hint code {
+            background: rgba(0,0,0,0.05);
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .loading-message {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+        }
+        .error-message {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .event-card, .place-item, .source-item { animation: fadeInUp 0.3s ease backwards; }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container { padding: 1rem; }
+            h1 { font-size: 1.5rem; }
+            .main-tab { padding: 0.5rem 0.8rem; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-icon">📍</div>
+            <h1>My Region</h1>
+            <p class="subtitle">Radotín-Soběchleby and surroundings (up to 100 km)</p>
+            <span class="last-updated">Last updated: January 16, 2026</span>
+        </header>
+
+        <!-- Main Tabs -->
+        <div class="main-tabs">
+            <button class="main-tab active" data-tab="events">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                Events
+            </button>
+            <button class="main-tab" data-tab="sources">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                </svg>
+                Sources
+            </button>
+            <button class="main-tab" data-tab="places">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                Places to Visit
+            </button>
+        </div>
+
+        <!-- ==================== -->
+        <!-- EVENTS TAB          -->
+        <!-- ==================== -->
+        <div class="tab-content active" id="events-tab">
+            <div class="refresh-row">
+                <button class="refresh-btn" id="refresh-events">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Refresh Events
+                </button>
+                <span class="last-refresh">Last refresh: Just now</span>
+            </div>
+
+            <div class="legend">
+                <div class="legend-item"><span class="legend-dot upcoming"></span> Upcoming</div>
+                <div class="legend-item"><span class="legend-dot past"></span> Past</div>
+                <div class="legend-item"><span class="legend-dot notification"></span> Announcement</div>
+            </div>
+
+            <div class="filter-section">
+                <span class="filter-label">Location</span>
+                <div class="filters-row">
+                    <button class="filter-btn active" data-filter="location" data-value="all">All</button>
+                    <button class="filter-btn" data-filter="location" data-value="radotin"><span class="loc-dot" style="background:var(--loc-radotin)"></span> Radotín</button>
+                    <button class="filter-btn" data-filter="location" data-value="villages"><span class="loc-dot" style="background:var(--loc-villages)"></span> Villages</button>
+                    <button class="filter-btn" data-filter="location" data-value="lipnik"><span class="loc-dot" style="background:var(--loc-lipnik)"></span> Lipník</button>
+                    <button class="filter-btn" data-filter="location" data-value="prerov"><span class="loc-dot" style="background:var(--loc-prerov)"></span> Přerov</button>
+                    <button class="filter-btn" data-filter="location" data-value="olomouc"><span class="loc-dot" style="background:var(--loc-olomouc)"></span> Olomouc</button>
+                    <button class="filter-btn" data-filter="location" data-value="kromeriz"><span class="loc-dot" style="background:var(--loc-kromeriz)"></span> Kroměříž</button>
+                    <button class="filter-btn" data-filter="location" data-value="prostejov"><span class="loc-dot" style="background:var(--loc-prostejov)"></span> Prostějov</button>
+                    <button class="filter-btn" data-filter="location" data-value="zlin"><span class="loc-dot" style="background:var(--loc-zlin)"></span> Zlín</button>
+                    <button class="filter-btn" data-filter="location" data-value="sumperk"><span class="loc-dot" style="background:var(--loc-sumperk)"></span> Šumperk</button>
+                    <button class="filter-btn" data-filter="location" data-value="ostrava"><span class="loc-dot" style="background:var(--loc-ostrava)"></span> Ostrava</button>
+                    <button class="filter-btn" data-filter="location" data-value="opava"><span class="loc-dot" style="background:var(--loc-opava)"></span> Opava</button>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <span class="filter-label">Type</span>
+                <div class="filters-row">
+                    <button class="filter-btn active" data-filter="type" data-value="all">All</button>
+                    <button class="filter-btn" data-filter="type" data-value="upcoming">🟢 Upcoming</button>
+                    <button class="filter-btn" data-filter="type" data-value="past">🔵 Past</button>
+                    <button class="filter-btn" data-filter="type" data-value="notification">🟡 Announcements</button>
+                </div>
+            </div>
+
+            <section class="events-list">
+                <a href="https://www.prerov.eu/redakce/index.php?lanG=cs&portal=2&subakce=news" target="_blank" class="event-card upcoming" data-location="prerov" data-type="upcoming">
+                    <div class="event-header">
+                        <span class="type-tag upcoming">Upcoming</span>
+                        <div class="event-location"><span class="event-location-dot" style="background:var(--loc-prerov)"></span>Přerov · 14 km</div>
+                    </div>
+                    <div class="event-date">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                        January 26, 2026, 4:00 PM
+                    </div>
+                    <h3 class="event-title">Public Meeting with City Leadership</h3>
+                    <p class="event-excerpt">Come discuss with city leaders at the Přerov City Gallery.</p>
+                    <div class="event-source"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>prerov.eu</div>
+                </a>
+
+                <a href="https://www.sobechleby.cz/aktuality" target="_blank" class="event-card upcoming" data-location="villages" data-type="upcoming">
+                    <div class="event-header">
+                        <span class="type-tag upcoming">Upcoming</span>
+                        <div class="event-location"><span class="event-location-dot" style="background:var(--loc-villages)"></span>Soběchleby · 2 km</div>
+                    </div>
+                    <div class="event-date">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                        February 22, 2026, 8:00 PM
+                    </div>
+                    <h3 class="event-title">Firemen's Ball (Hasičský bál)</h3>
+                    <p class="event-excerpt">Traditional firefighters' ball organized by SDH Soběchleby.</p>
+                    <div class="event-source"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>sobechleby.cz</div>
+                </a>
+
+                <a href="https://www.olomouc.eu/portal/aktuality" target="_blank" class="event-card upcoming" data-location="olomouc" data-type="upcoming">
+                    <div class="event-header">
+                        <span class="type-tag upcoming">Upcoming</span>
+                        <div class="event-location"><span class="event-location-dot" style="background:var(--loc-olomouc)"></span>Olomouc · 30 km</div>
+                    </div>
+                    <div class="event-date">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                        January 15 – February 15, 2026
+                    </div>
+                    <h3 class="event-title">School Enrollment for First Graders</h3>
+                    <p class="event-excerpt">Registration for first grade at Olomouc elementary schools.</p>
+                    <div class="event-source"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>olomouc.eu</div>
+                </a>
+
+                <a href="https://www.obecradotin.cz/aktuality" target="_blank" class="event-card notification" data-location="radotin" data-type="notification">
+                    <div class="event-header">
+                        <span class="type-tag notification">Announcement</span>
+                        <div class="event-location"><span class="event-location-dot" style="background:var(--loc-radotin)"></span>Radotín · 0 km</div>
+                    </div>
+                    <div class="event-date">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                        January 8, 2026
+                    </div>
+                    <h3 class="event-title">Three Kings Collection Results</h3>
+                    <p class="event-excerpt">Traditional charity collection completed in our village.</p>
+                    <div class="event-source"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>obecradotin.cz</div>
+                </a>
+
+                <a href="https://www.mesto-lipnik.cz/" target="_blank" class="event-card notification" data-location="lipnik" data-type="notification">
+                    <div class="event-header">
+                        <span class="type-tag notification">Announcement</span>
+                        <div class="event-location"><span class="event-location-dot" style="background:var(--loc-lipnik)"></span>Lipník n.B. · 7 km</div>
+                    </div>
+                    <div class="event-date">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                        January 1, 2026
+                    </div>
+                    <h3 class="event-title">Waste Collection Schedule 2026</h3>
+                    <p class="event-excerpt">New waste collection calendar published for 2026.</p>
+                    <div class="event-source"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>mesto-lipnik.cz</div>
+                </a>
+
+                <a href="https://www.tynnadbecvou.cz/aktuality" target="_blank" class="event-card past" data-location="villages" data-type="past">
+                    <div class="event-header">
+                        <span class="type-tag past">Past</span>
+                        <div class="event-location"><span class="event-location-dot" style="background:var(--loc-villages)"></span>Týn n.B. · 5 km</div>
+                    </div>
+                    <div class="event-date">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                        December 31, 2025
+                    </div>
+                    <h3 class="event-title">New Year's Eve Party</h3>
+                    <p class="event-excerpt">Silvester celebration at Týn nad Bečvou town hall.</p>
+                    <div class="event-source"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>tynnadbecvou.cz</div>
+                </a>
+            </section>
+        </div>
+
+        <!-- ==================== -->
+        <!-- SOURCES TAB         -->
+        <!-- ==================== -->
+        <div class="tab-content" id="sources-tab">
+            <div class="sources-info">
+                <span id="sources-count">Loading...</span>
+                <span class="sources-hint">To add/edit sources, edit the <code>sources.json</code> file</span>
+            </div>
+            <div id="sources-container">
+                <!-- Sources will be loaded dynamically from sources.json -->
+                <div class="loading-message">Loading sources...</div>
+            </div>
+
+        </div>
+
+        <!-- ==================== -->
+        <!-- PLACES TO VISIT TAB -->
+        <!-- ==================== -->
+        <div class="tab-content" id="places-tab">
+            
+            <section class="places-section" data-city="prerov">
+                <div class="places-header">
+                    <span class="loc-dot" style="background:var(--loc-prerov)"></span>
+                    <h2>Přerov & Surroundings</h2>
+                    <span class="distance">~14 km</span>
+                </div>
+                <div class="places-progress">
+                    <span class="progress-text">0 / 6 visited</span>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 0%"></div></div>
+                </div>
+                <div class="place-item"><div class="place-checkbox"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg></div><div class="place-content"><div class="place-name">Helfštýn Castle <span class="place-badge castle">Castle</span></div><div class="place-description">One of the largest castle complexes in Central Europe. Blacksmithing center.</div></div></div>
+                <div class="place-item"><div class="place-checkbox"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg></div><div class="place-content"><div class="place-name">Přerov Castle & Comenius Museum <span class="place-badge museum">Museum</span></div><div class="place-description">Historical museum with archaeology and J. A. Comenius exhibition.</div></div></div>
+                <div class="place-item"><div class="place-checkbox"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg></div><div class="place-content"><div class="place-name">Zbrašov Aragonite Caves <span class="place-badge nature">Nature</span></div><div class="place-description">Unique hydrothermal caves in Teplice nad Bečvou.</div></div></div>
+                <div class="place-item"><div class="place-checkbox"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg></div><div class="place-content"><div class="place-name">Hranická Propast (Abyss) <span class="place-badge nature">Nature</span></div><div class="place-description">Deepest flooded freshwater cave in the world (473+ m).</div></div></div>
+                <div class="place-item"><div class="place-checkbox"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg></div><div class="place-content"><div class="place-name">Lipník nad Bečvou <span class="place-badge">Historic Town</span></div><div class="place-description">Urban monument reservation with Renaissance square.</div></div></div>
+                <div class="place-item"><div class="place-checkbox"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg></div><div class="place-content"><div class="place-name">Tovačov Chateau <span class="place-badge castle">Chateau</span></div><div class="place-description">Renaissance chateau with nearly 100m tower.</div></div></div>
+            </section>
+
+            <section class="places-section" data-city="olomouc">
+                <div class="places-header">
+                    <span class="loc-dot" style="background:var(--loc-olomouc)"></span>
+                    <h2>Olomouc</h2>
+                    <span class="distance">~30 km</span>
+                </div>
+                <div class="places-progress">
+                    <span class="progress-text">0 / 8 visited</span>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 0%"></div></div>
+                </div>
+                <div class="place-item"><div class="place-checkbox"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg></div><div class="place-content"><div class="place-name">Holy Trinity Column <span class="place-badge">UNESCO</span></div><div class="place-description">35m tall Baroque sculpture – largest in Central Europe.</div></div></div>
+                <div class="place-item"><div class="place-checkbox"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg></div><div class="place-content"><div class="place-name">Astronomical Clock <span class="place-badge museum">Landmark</span></div><div class="place-description">Unique socialist-realism clock on town hall.</div></div></div>
+                <div class="place-item"><div class="place-checkbox"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg></div><div class="place-content"><div class="place-name">St. Wenceslas Cathedral <span class="place-badge church">Church</span></div><div class="place-description">Gothic cathedral with tallest spire in Moravia (100m).</div></div></div>
+                <div class="place-item"><div class="place-checkbox"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg></div><div class="place-content"><div class="place-name">6 Baroque Fountains</div><div class="place-description">Neptune, Hercules, Jupiter, Triton, Caesar, Mercury.</div></div></div>
+                <div class="place-item"><div class="place-checkbox"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg></div><div class="place-content"><div class="place-name">Svatý Kopeček + Zoo <span class="place-badge nature">Nature</span></div><div class="place-description">Pilgrimage basilica and popular zoo.</div></div></div>
+                <div class="place-item"><div class="place-checkbox"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg></div><div class="place-content"><div class="place-name">Olomouc Tvarůžky <span class="place-badge">Gastronomy</span></div><div class="place-description">Taste the famous smelly cheese!</div></div></div>
+                <div class="place-item"><div class="place-checkbox"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg></div><div class="place-content"><div class="place-name">Bouzov Castle <span class="place-badge castle">Castle</span></div><div class="place-description">Fairytale castle ~30 km from Olomouc.</div></div></div>
+                <div class="place-item"><div class="place-checkbox"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg></div><div class="place-content"><div class="place-name">Kroměříž Gardens <span class="place-badge">UNESCO</span></div><div class="place-description">UNESCO chateau and gardens ~25 km away.</div></div></div>
+            </section>
+
+        </div>
+
+        <footer>
+            <p class="footer-text">📊 Total: 65+ sources across 12 locations</p>
+        </footer>
+    </div>
+
+    <script>
+        // Tab switching
+        document.querySelectorAll('.main-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                document.getElementById(this.dataset.tab + '-tab').classList.add('active');
+            });
+        });
+
+        // Refresh button for events (placeholder)
+        document.getElementById('refresh-events').addEventListener('click', function() {
+            const btn = this;
+            btn.classList.add('loading');
+            btn.disabled = true;
+            setTimeout(() => {
+                btn.classList.remove('loading');
+                btn.disabled = false;
+                const now = new Date();
+                document.querySelector('.last-refresh').textContent = 'Last refresh: ' + now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg> Updated!`;
+                setTimeout(() => {
+                    btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg> Refresh Events`;
+                }, 1500);
+            }, 1500);
+        });
+
+        // Event filters
+        let activeFilters = { location: 'all', type: 'all' };
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const filterType = this.dataset.filter;
+                document.querySelectorAll(`.filter-btn[data-filter="${filterType}"]`).forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                activeFilters[filterType] = this.dataset.value;
+                document.querySelectorAll('.event-card').forEach(card => {
+                    const locationMatch = activeFilters.location === 'all' || activeFilters.location === card.dataset.location;
+                    const typeMatch = activeFilters.type === 'all' || activeFilters.type === card.dataset.type;
+                    card.style.display = (locationMatch && typeMatch) ? 'block' : 'none';
+                });
+            });
+        });
+
+        // Place checklist
+        document.querySelectorAll('.place-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.classList.toggle('visited');
+                updateProgress();
+                saveProgress();
+            });
+        });
+
+        function updateProgress() {
+            document.querySelectorAll('.places-section').forEach(section => {
+                const total = section.querySelectorAll('.place-item').length;
+                const visited = section.querySelectorAll('.place-item.visited').length;
+                section.querySelector('.progress-text').textContent = `${visited} / ${total} visited`;
+                section.querySelector('.progress-fill').style.width = (total > 0 ? (visited / total) * 100 : 0) + '%';
+            });
+        }
+
+        function saveProgress() {
+            const visited = Array.from(document.querySelectorAll('.place-item.visited .place-name')).map(n => n.textContent.trim().substring(0, 30));
+            localStorage.setItem('visitedPlaces', JSON.stringify(visited));
+        }
+
+        function loadProgress() {
+            const visited = JSON.parse(localStorage.getItem('visitedPlaces') || '[]');
+            document.querySelectorAll('.place-item').forEach(item => {
+                const name = item.querySelector('.place-name').textContent.trim().substring(0, 30);
+                if (visited.includes(name)) item.classList.add('visited');
+            });
+            updateProgress();
+        }
+        loadProgress();
+
+        // ============================================
+        // LOAD SOURCES FROM JSON
+        // ============================================
+        function getSourceIcon(type) {
+            const icons = {
+                'web': '🌐',
+                'facebook': 'f',
+                'instagram': '📷',
+                'linkedin': 'in',
+                'munipolis': '📱'
+            };
+            return icons[type] || '🌐';
+        }
+
+        function getIconClass(type) {
+            const classes = {
+                'web': 'web',
+                'facebook': 'fb',
+                'instagram': 'ig',
+                'linkedin': 'li',
+                'munipolis': 'web'
+            };
+            return classes[type] || 'web';
+        }
+
+        async function loadSources() {
+            const container = document.getElementById('sources-container');
+            const countEl = document.getElementById('sources-count');
+            
+            try {
+                const response = await fetch('sources.json');
+                if (!response.ok) throw new Error('Could not load sources.json');
+                
+                const data = await response.json();
+                const sources = data.sources;
+                
+                // Update count
+                countEl.textContent = `${sources.length} sources loaded`;
+                
+                // Group by city
+                const grouped = {};
+                sources.forEach(source => {
+                    if (!grouped[source.city]) {
+                        grouped[source.city] = {
+                            distance: source.distance,
+                            sources: []
+                        };
+                    }
+                    grouped[source.city].sources.push(source);
+                });
+                
+                // Sort cities by distance
+                const sortedCities = Object.keys(grouped).sort((a, b) => 
+                    grouped[a].distance - grouped[b].distance
+                );
+                
+                // Render
+                let html = '';
+                sortedCities.forEach(city => {
+                    const cityData = grouped[city];
+                    const colorVar = getCityColor(city);
+                    
+                    html += `
+                        <section class="sources-section">
+                            <div class="sources-header">
+                                <span class="loc-dot" style="background:${colorVar}"></span>
+                                <h3>${city}</h3>
+                                <span class="count">${cityData.sources.length} source${cityData.sources.length !== 1 ? 's' : ''}</span>
+                                <span class="distance">~${cityData.distance} km</span>
+                            </div>
+                    `;
+                    
+                    cityData.sources.forEach(source => {
+                        const icon = getSourceIcon(source.type);
+                        const iconClass = getIconClass(source.type);
+                        const displayUrl = source.url.replace(/https?:\/\/(www\.)?/, '').split('/')[0];
+                        
+                        html += `
+                            <a href="${source.url}" target="_blank" class="source-item">
+                                <span class="source-icon ${iconClass}">${icon}</span>
+                                ${source.name || displayUrl}
+                            </a>
+                        `;
+                    });
+                    
+                    html += '</section>';
+                });
+                
+                container.innerHTML = html;
+                
+            } catch (error) {
+                console.error('Error loading sources:', error);
+                container.innerHTML = `
+                    <div class="error-message">
+                        <strong>Could not load sources</strong><br>
+                        Make sure <code>sources.json</code> is in the same folder as this HTML file.<br>
+                        <small>${error.message}</small>
+                    </div>
+                `;
+                countEl.textContent = 'Error loading';
+            }
+        }
+
+        function getCityColor(city) {
+            const colors = {
+                'Radotín': 'var(--loc-radotin)',
+                'Soběchleby': 'var(--loc-villages)',
+                'Týn nad Bečvou': 'var(--loc-villages)',
+                'Teplice nad Bečvou': 'var(--loc-villages)',
+                'Lipník nad Bečvou': 'var(--loc-lipnik)',
+                'Ústí': 'var(--loc-villages)',
+                'Přerov': 'var(--loc-prerov)',
+                'Olomouc': 'var(--loc-olomouc)',
+                'Kroměříž': 'var(--loc-kromeriz)',
+                'Prostějov': 'var(--loc-prostejov)',
+                'Zlín': 'var(--loc-zlin)',
+                'Šumperk': 'var(--loc-sumperk)',
+                'Ostrava': 'var(--loc-ostrava)',
+                'Opava': 'var(--loc-opava)'
+            };
+            return colors[city] || 'var(--text-muted)';
+        }
+
+        // Load sources on page load
+        loadSources();
+    </script>
+</body>
+</html>
